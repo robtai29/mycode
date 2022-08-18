@@ -58,7 +58,6 @@ def replaceWords():
     with open('json.txt', 'w') as json_file:
         json.dump(replaceMap, json_file)
 
-test = {}
 def huffmanEncode():
     path = input("Please Enter the File to be encrypted: ")
     isFile = os.path.isfile(path)
@@ -68,30 +67,30 @@ def huffmanEncode():
     with open(path, 'r') as wholefile:
         entireText = wholefile.read()
         freqDict = Counter(entireText)
-        test = freqDict
-    
+            
     codec = HuffmanCodec.from_frequencies(freqDict)
-
-    with open(path, 'r') as file:
-        data = []
-        for line in file:
-            line = codec.encode(line)
-            data.append(line)
+    encode = codec.encode(entireText)
+    
 
     with open(path + "-encrypted", "wb") as doc1:
-        doc1.writelines(data)
+        doc1.write(encode)
         
-    
+    with open("huffman.json", 'w') as jsonfile:
+        json.dump(freqDict, jsonfile)
+
 def huffmanDecode():
     path = input("Please Enter the file to decrypted: ")
     isFile = os.path.isfile(path)
     print(isFile)
-    print(test)
-    codecD = HuffmanCodec.from_frequencies(test) 
-    with open(path, 'r') as file:
+    with open("huffman.json", 'r') as jsonfile:
+        wordDict = json.load(jsonfile)
+    
+
+    codec = HuffmanCodec.from_frequencies(wordDict) 
+    with open(path, 'rb') as file:
         data = []
         for line in file:
-            line = codecD.decode(line)
+            line = codec.decode(line)
             data.append(line)
 
     with open(path + "-decrypted", "w") as doc:
