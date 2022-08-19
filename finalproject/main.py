@@ -147,6 +147,6 @@ def huffman_decode():
     print("Decryption is completed.")
 
 
-# print(wordSet)
 if __name__ == "__main__":
+    """Runs the main program"""
     main()
